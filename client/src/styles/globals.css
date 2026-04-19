@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* ── Color Palette — 25% darker ── */
+  --color-cream-50: #EFE5CC;    /* was #FDFAF5 */
+  --color-cream-100: #E8D9BC;   /* was #FAF6F0 */
+  --color-cream-200: #DCCBA4;   /* was #F2EBE0 */
+  --color-cream-300: #CEBA8E;   /* was #E8DCCC */
+
+  --color-gold-300: #C4A84A;    /* was #E0C97F */
+  --color-gold-400: #A8832A;    /* was #C9A84C */
+  --color-gold-500: #8F6C00;    /* was #B8960C */
+  --color-gold-600: #6B4D0E;    /* was #8B6914 */
+  --color-gold-700: #452E04;    /* was #5C430A */
+
+  --color-espresso-100: #6B5548; /* was #8A7060 */
+  --color-espresso-500: #38200E; /* was #4A2F1A */
+  --color-espresso-900: #1E0E06; /* was #2C1A0E */
+
+  /* ── Typography ── */
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-cinzel: 'Cinzel', serif;
+  --font-garamond: 'EB Garamond', Georgia, serif;
+  --font-josefin: 'Josefin Sans', sans-serif;
+
+  /* ── Shadows ── */
+  --shadow-gem: 0 8px 32px rgba(140, 95, 30, 0.22), 0 2px 8px rgba(140, 95, 30, 0.14);
+  --shadow-card: 0 4px 24px rgba(140, 95, 30, 0.16);
+  --shadow-gold: 0 0 24px rgba(168, 131, 42, 0.45);
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-garamond);
+  background-color: #EFE5CC;
+  color: #38200E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Noise Texture Overlay ── */
+.noise-texture {
+  position: relative;
+}
+.noise-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Gold Shimmer Animation ── */
+@keyframes gold-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #8F6C00 0%, #C4A84A 40%, #A8832A 60%, #8F6C00 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer 3s linear infinite;
+}
+
+/* ── Gem Float Animation ── */
+@keyframes gem-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1deg); }
+  66% { transform: translateY(-6px) rotate(-0.5deg); }
+}
+
+.gem-float {
+  animation: gem-float 6s ease-in-out infinite;
+}
+
+/* ── Gold Particles ── */
+@keyframes particle-float {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-60vh) translateX(var(--drift)) scale(0.3); opacity: 0; }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #E8D9BC; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #A8832A, #6B4D0E);
+  border-radius: 3px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(168, 131, 42, 0.3);
+  color: #1E0E06;
+}
+
+/* ── Typography Utilities ── */
+.font-cormorant { font-family: var(--font-cormorant); }
+.font-cinzel { font-family: var(--font-cinzel); }
+.font-garamond { font-family: var(--font-garamond); }
+.font-josefin { font-family: var(--font-josefin); }
+
+/* ── Gold Divider ── */
+.gold-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #C9A84C, transparent);
+  position: relative;
+}
+
+/* ── Card Base ── */
+.gem-card {
+  background: #FDFAF5;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 4px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+.gem-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(201, 168, 76, 0.75);
+  box-shadow: var(--shadow-gem);
+}
+
+/* ── Page Transition Gold Bar ── */
+.page-transition-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #C9A84C, #E0C97F, #B8960C);
+  z-index: 9999;
+  transform-origin: left;
+}
+
+/* ── Custom Cursor ── */
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #C9A84C;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.1s ease;
+  mix-blend-mode: multiply;
+}
+.custom-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(201, 168, 76, 0.7);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transition: all 0.15s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Focus Ring ── */
+*:focus-visible {
+  outline: 1.5px solid #C9A84C;
+  outline-offset: 2px;
+}
+
+/* ── Marquee ── */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-scroll 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Planet Badge ── */
+.planet-badge {
+  font-family: var(--font-cinzel);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border: 1px solid rgba(201, 168, 76, 0.6);
+  border-radius: 2px;
+  color: #8B6914;
+  background: rgba(224, 201, 127, 0.12);
+}
+
+/* ── Smooth image loading ── */
+img {
+  transition: opacity 0.3s ease;
+}
+img[loading] {
+  opacity: 0;
+}
+img.loaded {
+  opacity: 1;
+}
